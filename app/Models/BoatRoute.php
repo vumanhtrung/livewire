@@ -2,18 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Boat extends Model
+class BoatRoute extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'boats';
+    protected $table = 'boat_routes';
 
     protected $fillable = [
+        'boat_id',
         'name',
         'code',
         'active',
@@ -35,8 +35,8 @@ class Boat extends Model
         return $query->where('active', 1);
     }
 
-    public function boatRoutes(): HasMany
+    public function boat(): BelongsTo
     {
-        return $this->hasMany(BoatRoute::class);
+        return $this->belongsTo(Boat::class);
     }
 }
