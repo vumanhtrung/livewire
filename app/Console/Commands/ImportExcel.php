@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Imports\BoatsImport;
 use App\Imports\CountriesImport;
 use App\Imports\DistrictsImport;
 use App\Imports\HotelsImport;
@@ -47,7 +48,8 @@ class ImportExcel extends Command
         // (new ProvincesImport)->withOutput($this->output)->import(storage_path('import/provinces.xlsx'));
         // (new DistrictsImport)->withOutput($this->output)->import(storage_path('import/districts.xlsx'));
         // (new WardsImport)->withOutput($this->output)->import(storage_path('import/wards.xlsx'));
-        (new HotelsImport)->withOutput($this->output)->import(storage_path('import/hotels.csv'));
+        // (new HotelsImport)->withOutput($this->output)->import(storage_path('import/hotels.csv'));
+        (new BoatsImport)->withOutput($this->output)->import(storage_path('import/boats.xlsx'));
         $this->output->success('Import successful');
     }
 }
