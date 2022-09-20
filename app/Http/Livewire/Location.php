@@ -27,11 +27,11 @@ class Location extends Component
 
     public function mount()
     {
-        $this->countries = Country::active()->get();
+        $this->countries = Country::all();
         $this->provinces = collect();
         $this->districts = collect();
         $this->wards = collect();
-        $this->hotels = Hotel::with('country')->active()->take(10)->inRandomOrder()->get();
+        $this->hotels = Hotel::with('country')->whereHas('country')->take(10)->inRandomOrder()->get();
     }
 
     public function render()
@@ -41,21 +41,21 @@ class Location extends Component
 
     public function updatedCountry($value)
     {
-        $this->provinces = Province::active()->whereCountryId($value)->get();
+        $this->provinces = Province::whereCountryId($value)->get();
         $this->districts = collect();
         $this->wards = collect();
-        $this->hotels = Hotel::active()->with('country')->whereCountryId($value)->take(10)->get();
+        $this->hotels = Hotel::with('country')->whereHas('country')->whereCountryId($value)->take(10)->get();
     }
 
     public function updatedProvince($value)
     {
-        $this->districts = District::active()->whereProvinceId($value)->get();
+        $this->districts = District::whereProvinceId($value)->get();
         $this->wards = collect();
     }
 
     public function updatedDistrict($value)
     {
-        $this->wards = Ward::active()->whereDistrictId($value)->get();
+        $this->wards = Ward::whereDistrictId($value)->get();
     }
 
 }

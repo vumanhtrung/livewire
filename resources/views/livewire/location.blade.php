@@ -67,7 +67,7 @@
         @foreach ($hotels as $hotel)
             <tr>
                 <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500 text-sm leading-5">{{ $hotel->name }}</td>
-                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500 text-sm leading-5">{{ $hotel->address }}, {{ $hotel->full_address }}</td>
+                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500 text-sm leading-5">{{ $hotel->full_address }}</td>
             </tr>
         @endforeach
         </tbody>
