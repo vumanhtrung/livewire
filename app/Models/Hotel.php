@@ -45,6 +45,11 @@ class Hotel extends Model
         return $query->where('active', 1);
     }
 
+    public function getFullAddressAttribute()
+    {
+        return "{$this->address}, {$this->city}, {$this->province}, {$this->country->name},  {$this->postal_code}";
+    }
+
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class);
