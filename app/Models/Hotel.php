@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\ActiveScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -40,9 +41,25 @@ class Hotel extends Model
         'active' => 'boolean'
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new ActiveScope);
+    }
+
     public function scopeActive($query)
     {
         return $query->where('active', 1);
+    }
+
+    public function getFullAddressAttribute()
+    {
+        return "{$this->address}" .
+            ($this->city ? ", {$this->city}" : '') .
+            ($this->province ? ", {$this->province}" : '') .
+            ", {$this->country->name}" .
+            ($this->postal_code ? ", {$this->postal_code}" : '');
     }
 
     public function country(): BelongsTo
