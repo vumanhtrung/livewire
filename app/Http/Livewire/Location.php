@@ -18,12 +18,19 @@ class Location extends Component
     public $provinces;
     public $districts;
     public $wards;
-    public $hotels;
 
     public $country;
     public $province;
     public $district;
     public $ward;
+    public $search = '';
+    public $page = 1;
+    public $country_name;
+
+    protected $queryString = [
+        'search' => ['except' => ''],
+        'page' => ['except' => 1],
+    ];
 
     public function mount()
     {
@@ -31,12 +38,20 @@ class Location extends Component
         $this->provinces = collect();
         $this->districts = collect();
         $this->wards = collect();
-        $this->hotels = Hotel::with('country')->whereHas('country')->take(10)->inRandomOrder()->get();
     }
 
     public function render()
     {
-        return view('livewire.location');
+        return view('livewire.location', [
+            'hotels' => Hotel::with('country')
+                ->whereHas('country')
+                ->when($this->search, function ($query, $search) {
+                    return $query->where('name', 'like', '%'.$search.'%');
+                })
+                ->when($this->country, function ($query, $country) {
+                    return $query->where('country_id', $country);
+                })->paginate(20)
+        ]);
     }
 
     public function updatedCountry($value)
@@ -44,7 +59,6 @@ class Location extends Component
         $this->provinces = Province::whereCountryId($value)->get();
         $this->districts = collect();
         $this->wards = collect();
-        $this->hotels = Hotel::with('country')->whereHas('country')->whereCountryId($value)->take(10)->get();
     }
 
     public function updatedProvince($value)
