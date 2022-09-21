@@ -14,18 +14,12 @@ class Location extends Component
 {
     use WithPagination;
 
-    public $countries;
-    public $provinces;
-    public $districts;
-    public $wards;
-
-    public $country;
-    public $province;
-    public $district;
-    public $ward;
+    public $countries, $provinces, $districts, $wards;
+    public $country, $province, $district, $ward;
+    public Hotel $hotel;
+    public $isModalOpen = false;
     public $search = '';
     public $page = 1;
-    public $country_name;
 
     protected $queryString = [
         'search' => ['except' => ''],
@@ -70,6 +64,54 @@ class Location extends Component
     public function updatedDistrict($value)
     {
         $this->wards = Ward::whereDistrictId($value)->get();
+    }
+
+    public function openModal()
+    {
+        $this->isModalOpen = true;
+    }
+
+    public function closeModal()
+    {
+        $this->isModalOpen = false;
+    }
+
+    private function resetInputFields()
+    {
+        $this->name = '';
+        $this->address = '';
+    }
+
+    public function edit(Hotel $hotel)
+    {
+        $this->hotel = $hotel;
+
+        $this->openModal();
+    }
+
+    public function update()
+    {
+        $this->validate();
+
+        $this->hotel->save();
+
+        session()->flash('message', "The hotel `{$this->hotel->name}` was updated.");
+        $this->closeModal();
+        $this->resetInputFields();
+    }
+
+    protected function rules(): array
+    {
+        return [
+            'hotel.name' => [
+                'string',
+                'required'
+            ],
+            'hotel.address' => [
+                'string',
+                'required'
+            ],
+        ];
     }
 
 }
