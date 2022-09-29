@@ -5,6 +5,7 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\TestController;
 use App\Http\Livewire\InfinitePostListing;
 use App\Http\Livewire\PostListing;
+use App\Http\Livewire\Posts\Popular;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,6 +21,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('', [HomeController::class, 'index'])->name('home');
 Route::get('location', [LocationController::class, 'index'])->name('multi-level-select');
-Route::get('posts-with-load-more-button', PostListing::class)->name('load-more-button');
-Route::get('posts-with-infinite-pagination', InfinitePostListing::class)->name('infinite-pagination');
+Route::get('posts-with-load-more-button', PostListing::class)->name('posts.load-more-button');
+Route::get('posts-with-infinite-pagination', InfinitePostListing::class)->name('posts.infinite-pagination');
+Route::get('posts/popular', Popular::class)->name('posts.popular');
 Route::get('test', [TestController::class, 'index']);
