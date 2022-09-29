@@ -14,7 +14,7 @@
             </a>
         @endforeach
     </div>
-    
+
     @if($hasMorePages)
         <div
             x-data
@@ -27,3 +27,12 @@
         </div>
     @endif
 </div>
+
+@push('styles')
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+@endpush
+
+@push('scripts')
+    <script defer src="https://unpkg.com/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+@endpush

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\TestController;
 use App\Http\Livewire\InfinitePostListing;
@@ -17,11 +18,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('location', [LocationController::class, 'index']);
+Route::get('', [HomeController::class, 'index'])->name('home');
+Route::get('location', [LocationController::class, 'index'])->name('multi-level-select');
+Route::get('posts-with-load-more-button', PostListing::class)->name('load-more-button');
+Route::get('posts-with-infinite-pagination', InfinitePostListing::class)->name('infinite-pagination');
 Route::get('test', [TestController::class, 'index']);
-Route::get('posts-with-load-more-button', PostListing::class);
-Route::get('posts-with-infinite-pagination', InfinitePostListing::class);
